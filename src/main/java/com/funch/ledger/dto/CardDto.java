@@ -4,9 +4,11 @@ package com.funch.ledger.dto;
 import com.funch.ledger.domain.Card;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,12 +18,15 @@ import java.util.Optional;
 @Setter
 public class CardDto {
 
+    private int cardPk;
+    @NotBlank(message = "카드의 카드사를 반드시 입력해야합니다.")
     private String company;
+    @NotBlank(message = "카드의 명칭을 반드시 입력해야합니다.")
     private String name;
     private String memo;
-    @NotNull
+    @NotNull(message = "카드의 사용유무를 반드시 정해야합니다.")
     private char info;
-    @NotNull
+    @NotNull(message = "알람의 사용유무를 반드시 정해야합니다.")
     private char alarm;
     private LocalDate withDrawal;
     private int minimum;
@@ -49,6 +54,10 @@ public class CardDto {
         this.company = this.company == null ? card.getCompany() : this.company;
         this.name = this.name == null ? card.getName() : this.name;
         this.withDrawal = this.withDrawal == null ? card.getWithDrawal() : this.withDrawal;
+    }
+
+    private boolean validation() {
+        return !(StringUtils.isEmpty(this.company) || StringUtils.isEmpty(this.name));
     }
 
 }

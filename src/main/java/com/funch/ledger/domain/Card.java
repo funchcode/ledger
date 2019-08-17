@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -55,4 +56,10 @@ public class Card extends BaseTimeEntity {
         this.bounds = bounds;
     }
 
+    private boolean invalidation() {
+        if ("".equals(this.company.trim()) || "".equals(this.name.trim())) {
+            return true;
+        }
+        return false;
+    }
 }

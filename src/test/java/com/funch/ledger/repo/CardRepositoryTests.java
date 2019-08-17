@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.util.NullableUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,6 +20,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,10 +28,13 @@ public class CardRepositoryTests {
 
     @Autowired
     private CardRepository cardRepository;
+    String emptyCom;
+    String emptyName;
 
     @Before
     public void before() {
-
+        emptyCom = null;
+        emptyName = null;
     }
 
     /**
@@ -96,6 +101,32 @@ public class CardRepositoryTests {
         Card change = cardRepository.save(want.toChangeEntity(origin));
 
         Assert.assertEquals(origin.getCardPk(), change.getCardPk());
+    }
+
+    @Test
+    public void Not_Null_Check_Test() {
+        try {
+            Card card = Card.builder().company(emptyCom).name(emptyName).build();
+            cardRepository.save(card);
+        } catch (DataIntegrityViolationException e) {
+            System.out.println(e);
+        }
+    }
+
+    @Test
+    public void Get_Info_YN_Test() {
+        char info = 'Y';
+        List<Card> cards = cardRepository.findByInfoOrderByCardPkDesc(info);
+        Assert.assertNotEquals(null, cards);
+
+        List<Card> allCards = cardRepository.findAllByOrderByCardPkDesc();
+        Assert.assertNotEquals(0, allCards.size());
+    }
+
+    @Test
+    public void Get_By_CardPk_Test() {
+        Card card = cardRepository.findOneByCardPk(11);
+        Assert.assertNotEquals(null, card);
     }
 
     @After
