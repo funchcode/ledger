@@ -4,18 +4,15 @@ package com.funch.ledger.dto;
 import com.funch.ledger.domain.Card;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-
-import javax.persistence.Entity;
-import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Getter
 @Setter
+@Slf4j
 public class CardDto {
 
     private int cardPk;
@@ -34,8 +31,12 @@ public class CardDto {
     private int bounds;
 
     public Card toChangeEntity(Card card) {
-        setEmptyEntity(card);
+        if (!validation()) {
+            log.error("카드사와 카드명이 입력되지 않았거나, 빈 값으로 들어와 값이 데이터베이스에 반영되지 않았습니다.");
+            return null;
+        }
 
+        setEmptyEntity(card);
         return Card.builder().cardPk(card.getCardPk())
                 .company(company).name(name).alarm(alarm).info(info)
                 .memo(memo).withDrawal(withDrawal).bounds(bounds)
@@ -43,6 +44,11 @@ public class CardDto {
     }
 
     public Card toEntity() {
+        if (!validation()) {
+            log.error("카드사와 카드명이 입력되지 않았거나, 빈 값으로 들어와 값이 데이터베이스에 반영되지 않았습니다.");
+            return null;
+        }
+
         return Card.builder().company(company).name(name).memo(memo).info(info).alarm(alarm)
                 .withDrawal(withDrawal).minimum(minimum).period(period).bounds(bounds).build();
     }

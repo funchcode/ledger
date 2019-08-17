@@ -2,6 +2,7 @@ package com.funch.ledger.repo;
 
 import com.funch.ledger.domain.Card;
 import com.funch.ledger.dto.CardDto;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.LocalDateAssert;
 import org.junit.After;
 import org.junit.Assert;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class CardRepositoryTests {
 
     @Autowired
@@ -127,6 +129,21 @@ public class CardRepositoryTests {
     public void Get_By_CardPk_Test() {
         Card card = cardRepository.findOneByCardPk(11);
         Assert.assertNotEquals(null, card);
+    }
+
+    @Test
+    public void Search_Word_Test() {
+        String searchWord = "*";
+
+        List<Card> cards = cardRepository.findCardSearchWord(searchWord);
+        log.info("검색어 : " + searchWord + " 로 검색한 결과의 수는 : " + cards.size());
+        Assert.assertNotEquals(null, cards);
+
+        String searchWordOfEmpty = "없다.";
+        List<Card> emptyObj = cardRepository.findCardSearchWord(searchWordOfEmpty);
+
+        log.info("검색어 : " + searchWordOfEmpty + " 로 검색한 결과의 수는 : " + emptyObj.size());
+        Assert.assertEquals(0, emptyObj.size());
     }
 
     @After

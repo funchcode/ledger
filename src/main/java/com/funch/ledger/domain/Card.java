@@ -56,10 +56,4 @@ public class Card extends BaseTimeEntity {
         this.bounds = bounds;
     }
 
-    private boolean invalidation() {
-        if ("".equals(this.company.trim()) || "".equals(this.name.trim())) {
-            return true;
-        }
-        return false;
-    }
 }
