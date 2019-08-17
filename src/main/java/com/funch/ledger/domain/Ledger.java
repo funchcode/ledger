@@ -1,5 +1,6 @@
 package com.funch.ledger.domain;
 
+import com.funch.ledger.domain.common.BaseTimeEntity;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @ToString
-public class Ledger {
+public class Ledger extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seqPk;
@@ -24,8 +25,4 @@ public class Ledger {
     private char option;
     @Column(nullable = false)
     private char category;
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
 }

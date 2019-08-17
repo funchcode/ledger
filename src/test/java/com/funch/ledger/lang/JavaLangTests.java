@@ -17,7 +17,7 @@ public class JavaLangTests {
     @Test
     public void java_Time_Test() {
         LocalDateTime now = LocalDateTime.now();
-        logger.info(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))); // 0000-00-00T00:00:00.000
+        logger.info(now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 
 }

@@ -7,7 +7,17 @@ spring:
   profiles: local
 
   datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/LEDGER
+    url: jdbc:mysql://localhost:3306/LEDGER?serverTimezone=UTC
     username: root
     password:
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
