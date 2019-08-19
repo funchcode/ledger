@@ -14,7 +14,7 @@ public class CardService {
 
     @Autowired
     private CardRepository cardRepository;
-
+    private final char ALL = 'A';
     /**
      * 임무 : 저장
      * 설명 : DTO 객체를 Entity 객체로 만들어 Persistence API로 전달해서 최종적으로 요청 정보를 저장한다.
@@ -44,7 +44,7 @@ public class CardService {
      */
     @Transactional
     public List<Card> getCards(char info) {
-        if(info == '\u0000') {
+        if(info == ALL) {
             return cardRepository.findAllByOrderByCardPkDesc();
         }
         return cardRepository.findByInfoOrderByCardPkDesc(info);
