@@ -1,13 +1,17 @@
 package com.funch.ledger.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.funch.ledger.domain.Card;
+import com.funch.ledger.util.NullUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDate;
 
 @Getter
@@ -25,6 +29,7 @@ public class CardDto {
     private char info;
     @NotNull(message = "알람의 사용유무를 반드시 정해야합니다.")
     private char alarm;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate withDrawal;
     private int minimum;
     private int period;
@@ -63,7 +68,7 @@ public class CardDto {
     }
 
     private boolean validation() {
-        return !(StringUtils.isEmpty(this.company) || StringUtils.isEmpty(this.name));
+        return !(NullUtils.isEmptyOfString(this.company) || NullUtils.isEmptyOfString(this.name));
     }
 
 }

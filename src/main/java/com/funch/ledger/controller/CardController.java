@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +27,7 @@ public class CardController {
     @PostMapping("/put")
     public ResponseEntity<String> save(@RequestBody CardDto cardDto) {
         Card card = cardService.save(cardDto);
-        if (card != null) {
+        if (!NullUtils.isNullOrEmpty(cardDto)) {
             log.info("새로 저장된 카드 정보 >> "+card.toString());
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -34,9 +35,14 @@ public class CardController {
     }
 
     // 업데이트 API
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<String> update(@RequestBody CardDto cardDto) {
-        return null;
+        Card card = cardService.update(cardDto);
+        if (!NullUtils.isNullOrEmpty(cardDto)) {
+            log.info("수정된 카드 정보 >> "+card.toString());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     // 조회 API

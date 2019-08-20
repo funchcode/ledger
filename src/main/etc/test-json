@@ -1,4 +1,8 @@
 -- Card 테스트 JSON 데이터 --
 
 {"cardPk":"2", "name":"애플 카드", "company":"애플", "memo":"서비스 센터용", "info":"", "alarm":"",
-"withdrawal":"2019-08-19", "minimum":"100000", "period":"12", "bounds":"10000000"}
+                                                                                  "withDrawal":"2019-08-19", "minimum":"100000", "period":"12", "bounds":"10000000"}
+
+
+{"cardPk":"18", "name":"애플 카드", "company":"애플", "memo":"서비스 센터용", "info":"", "alarm":"",
+"withDrawal":"2019-08-19", "minimum":"100000", "period":"12", "bounds":"10000000"}

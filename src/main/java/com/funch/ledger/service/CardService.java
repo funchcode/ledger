@@ -3,6 +3,7 @@ package com.funch.ledger.service;
 import com.funch.ledger.domain.Card;
 import com.funch.ledger.dto.CardDto;
 import com.funch.ledger.repo.CardRepository;
+import com.funch.ledger.util.NullUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,9 @@ public class CardService {
     @Transactional
     public Card update(CardDto cardDto) {
         Card origin = cardRepository.findOneByCardPk(cardDto.getCardPk());
+        if (NullUtils.isNullOrEmpty(origin)) {
+            return null;
+        }
         return cardRepository.save(cardDto.toChangeEntity(origin));
     }
 
