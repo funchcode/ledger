@@ -3,6 +3,7 @@ package com.funch.ledger.controller;
 import com.funch.ledger.domain.Card;
 import com.funch.ledger.dto.CardDto;
 import com.funch.ledger.service.CardService;
+import com.funch.ledger.util.NullUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,12 @@ public class CardController {
     // 저장 API
     @PostMapping("/put")
     public ResponseEntity<String> save(@RequestBody CardDto cardDto) {
-        return null;
+        Card card = cardService.save(cardDto);
+        if (card != null) {
+            log.info("새로 저장된 카드 정보 >> "+card.toString());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     // 업데이트 API
@@ -44,9 +50,9 @@ public class CardController {
     }
 
     // 검색 API
-    @GetMapping("/search/{word}")
+    @GetMapping(value = "/search/{word}", produces = "application/json;charset=utf-8")
     public ResponseEntity<List<Card>> search(@PathVariable("word") String word) {
-        if ("%".equals(word)) {
+        if ("%".equals(word) || NullUtils.isEmptyOfString(word)) {
             log.warn("WORD 파라미터 정보가 옳지 않습니다.");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

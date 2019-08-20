@@ -22,7 +22,11 @@ public class CardService {
      */
     @Transactional
     public Card save(CardDto cardDto) {
-        return cardRepository.save(cardDto.toEntity());
+        Card newCard = cardDto.toEntity();
+        if(newCard == null) {
+            return null;
+        }
+        return cardRepository.save(newCard);
     }
 
     /**
