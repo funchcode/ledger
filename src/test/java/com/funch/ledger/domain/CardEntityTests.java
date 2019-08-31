@@ -1,6 +1,7 @@
 package com.funch.ledger.domain;
 
 import com.funch.ledger.dto.CardDto;
+import com.funch.ledger.exception.EntityException;
 import com.funch.ledger.repo.CardRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class CardEntityTests {
      * 결과 : Request 요청에 @Valid를 붙이면 작동한다.
      */
     @Test
-    public void DTO_NotNull_Test() {
+    public void DTO_NotNull_Test() throws EntityException {
         String company = "";
         String name = "";
         CardDto cardDto = new CardDto();

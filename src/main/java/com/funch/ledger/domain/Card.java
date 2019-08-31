@@ -29,7 +29,7 @@ public class Card extends BaseTimeEntity {
     private char info;
     @Column(nullable = false)
     private char alarm;
-    @Column(name = "withdrawal")
+    @Column(name = "WITHDRAWAL")
     private LocalDate withDrawal;
     private int minimum;
     private int period;
@@ -42,7 +42,7 @@ public class Card extends BaseTimeEntity {
     }
 
     @Builder
-    public Card(int cardPk, String company, String name, String memo, char info, char alarm,
+        public Card(int cardPk, String company, String name, String memo, char info, char alarm,
                 LocalDate withDrawal, int minimum, int period, int bounds) {
         this.cardPk = cardPk;
         this.company = company;

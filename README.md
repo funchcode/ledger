@@ -11,3 +11,8 @@
 발생: Entity Default Value가 Insert되지 않아 PrePersist로 값을 세팅을 했는데 여전히 값이 수정되지 않음.
 원인: Default 값을 원하는 타입이 char였고 char의 Null 값은 '\u0000'로 들어왔음.
 해결: '\u0000'의 값과 현재 Entity의 값을 비교해서 Default Value를 세팅했음.
+
+발생: MariaDB Type DATE에 default로 Sysdate()와 같은 function()을 주고 싶었음.
+원인: Default 값으로 상수만 줄 수 있었다.
+해결: Type TIMESTAMP로 주고 current_timestamp()를 통해 해결
+

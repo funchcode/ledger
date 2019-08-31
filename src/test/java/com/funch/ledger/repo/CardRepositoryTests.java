@@ -2,25 +2,18 @@ package com.funch.ledger.repo;
 
 import com.funch.ledger.domain.Card;
 import com.funch.ledger.dto.CardDto;
+import com.funch.ledger.exception.EntityException;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.LocalDateAssert;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.util.NullableUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.ObjectUtils;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -44,7 +37,7 @@ public class CardRepositoryTests {
      * Test Data
      */
     @Test
-    public void Entity_Default_Value_Test() {
+    public void Entity_Default_Value_Test() throws EntityException {
         String company = "삼성";
         String name = "삼성 S카드";
         String memo = "유명 카페 프렌차이즈 할인 혜택";
@@ -78,7 +71,7 @@ public class CardRepositoryTests {
      * 카드사, 카드명은 ""의 값이면 안된다.
      */
     @Test
-    public void Change_Info_Value() {
+    public void Change_Info_Value() throws EntityException {
         String com = "현대카드";
         String name = "현대 M 카드";
         String memo = "KT 폰 요금 할인";

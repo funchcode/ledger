@@ -5,14 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
 public interface CardRepository extends JpaRepository<Card, Integer> {
-
-    // Junit 테스트 용
-    Card findTopByOrderByCardPkDesc();
 
     Card findOneByCardPk(int cardPk);
 
@@ -26,4 +22,6 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
             "OR c.minimum LIKE %:word% OR c.bounds LIKE %:word% OR c.period LIKE %:word% ")
     List<Card> findCardSearchWord(@Param("word") Object word);
 
+    // Junit 테스트 용
+    Card findTopByOrderByCardPkDesc();
 }

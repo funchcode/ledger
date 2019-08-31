@@ -2,6 +2,7 @@ package com.funch.ledger.controller;
 
 import com.funch.ledger.domain.Card;
 import com.funch.ledger.dto.CardDto;
+import com.funch.ledger.exception.EntityException;
 import com.funch.ledger.service.CardService;
 import com.funch.ledger.util.NullUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
+import javax.validation.Valid;
 import javax.validation.constraints.Null;
 import java.util.List;
 
@@ -25,24 +28,28 @@ public class CardController {
 
     // 저장 API
     @PostMapping("/put")
-    public ResponseEntity<String> save(@RequestBody CardDto cardDto) {
-        Card card = cardService.save(cardDto);
-        if (!NullUtils.isNullOrEmpty(cardDto)) {
-            log.info("새로 저장된 카드 정보 >> "+card.toString());
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> save(@RequestBody @Valid CardDto cardDto) {
+        try {
+            Card card = cardService.save(cardDto);
+            log.info("새로 저장된 카드 정보 : "+card.toString());
+        } catch (EntityException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 업데이트 API
     @PutMapping("/update")
     public ResponseEntity<String> update(@RequestBody CardDto cardDto) {
-        Card card = cardService.update(cardDto);
-        if (!NullUtils.isNullOrEmpty(cardDto)) {
-            log.info("수정된 카드 정보 >> "+card.toString());
-            return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            Card card = cardService.update(cardDto);
+            log.info("수정된 카드 정보 : " + card.toString());
+        } catch (EntityException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 조회 API
